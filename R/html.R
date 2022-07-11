@@ -1060,6 +1060,7 @@ number_appendix = function(x, i1, i2, type = c('toc', 'header')) {
   s1 = gsub(r, '\\1', x[i])
   s2 = gsub(r, '\\2', x[i]) # section numbers
   s3 = gsub(r, '\\3', x[i])
+  s4 = gsub(r, '\\4', x[i])
   s = strsplit(s2, ".", fixed = TRUE)
   s = lapply(s, as.integer)
 

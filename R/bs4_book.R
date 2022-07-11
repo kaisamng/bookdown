@@ -143,7 +143,7 @@ build_toc <- function(output) {
   html <- xml2::read_html(output)
 
   main <- xml2::xml_find_first(html, ".//main")
-  headings <- xml2::xml_find_all(main, ".//h1|.//h2|.//h3")
+  headings <- xml2::xml_find_all(main, ".//h1|.//h2|.//h3|.//h4")
 
   number <- xml2::xml_find_first(headings, ".//span[@class='header-section-number']")
 
@@ -166,7 +166,7 @@ build_toc <- function(output) {
   )
 
   # Determine hierarchy
-  toc$level <- unname(c("h1" = 1, "h2" = 2, "h3" = 3)[toc$tag])
+  toc$level <- unname(c("h1" = 1, "h2" = 2, "h3" = 3, "h4" = 4)[toc$tag])
   toc$tag <- NULL
   is_part <- grepl("\\(PART\\*?\\)", toc$text)
   is_appendix <- grepl("\\(APPENDIX\\*?\\)", toc$text)
@@ -458,8 +458,6 @@ tweak_navbar <- function(html, toc, active = "", rmd_index = NULL, repo = NULL) 
     suffix[next_level > this_level] <- "\n<ul class='nav navbar-nav'>"
 
     closing <- rep("</ul></li>", max(0, this_level[[n]] - 2))
-    # closing[this_level==5] <- c(closing, rep("</li>", max(0, length(this_level) +2)))
-    # closing <- na.omit(closing)
     suffix[[n]] <- paste0("</li>", paste0(closing, collapse = ""))
     nav <- paste0(
       "<ul class='nav navbar-nav'>\n",
